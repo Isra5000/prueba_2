@@ -27,3 +27,21 @@ shape_inegi_jal %>% mutate(prueba = sample(x = c(0, 1), size = 125, replace = TR
   filter(prueba == 1) %>%
   ggplot() +
   geom_sf()
+
+####Mapa interactivo ptar jal 2023####
+
+install.packages("leaflet")
+library(leaflet)
+
+leaflet() %>%
+  addTiles() %>%
+  setView(lng = -103.6303, lat = 19.98269, zoom = 14)
+
+shape_inegi_2 <- st_transform(shape_inegi_jal, "+init=epsg:4326")
+
+leaflet(shape_inegi_2) %>%
+  addPolygons(color="red") %>%
+  addTiles() %>%
+  addMarkers(data = coordendas %>% select(longitud,latitud) %>% rename(lng=longitud, lat=latitud)) %>%
+  setView(lng = -103.6303, lat = 19.98269, zoom = 14)
+
